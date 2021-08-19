@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/app.tj",
-    "dev": "nodemon src/app.ts",
+    "start": "cross-env NODE_ENV=production node dist/app.js",
+    "dev": "cross-env NODE_ENV=development nodemon src/app.ts",
     "build": "tsc"
   },
   "repository": {
