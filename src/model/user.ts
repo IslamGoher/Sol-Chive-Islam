@@ -1,15 +1,20 @@
-// load dependencies
-import mongoose, {Schema} from 'mongoose';
+import mongoose, { ObjectId, Document } from 'mongoose';
+
+type UserDocument = Document & {
+  name: string,
+  picture: string,
+  solutions: ObjectId[]
+}
 
 // create user schema
-const userSchema: Schema = new mongoose.Schema({
+const userSchema = new mongoose.Schema<UserDocument>({
   name: String,
   picture: String,
   solutions: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'solution'
+    ref: 'solutions'
   }]
 });
 
 // create user model
-export const User = mongoose.model('user', userSchema);
+export const User = mongoose.model<UserDocument>('users', userSchema);

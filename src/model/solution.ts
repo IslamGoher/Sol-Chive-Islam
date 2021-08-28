@@ -1,8 +1,23 @@
-// load dependencies
-import mongoose from "mongoose";
+import mongoose, { ObjectId, Document } from "mongoose";
+
+type SolutionDocument = Document & {
+  mySolution: string,
+  perfectSolution: {
+    isExist: boolean,
+    code?: string
+  },
+  problem: {
+    title: string,
+    link: string,
+    source: string,
+    tags: string[]
+  },
+  user: ObjectId,
+  createdAt: Date
+}
 
 // create solution schema
-const solutionSchema = new mongoose.Schema({
+const solutionSchema = new mongoose.Schema<SolutionDocument>({
   mySolution: {
     type: String,
     required: [true, 'please add mySolution']
@@ -47,7 +62,7 @@ const solutionSchema = new mongoose.Schema({
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user'
+    ref: 'users'
   }
 }, {
   timestamps: {
@@ -57,4 +72,4 @@ const solutionSchema = new mongoose.Schema({
 });
 
 // create solution model
-export const Solution = mongoose.model('solution', solutionSchema);
+export const Solution = mongoose.model<SolutionDocument>('solutions', solutionSchema);

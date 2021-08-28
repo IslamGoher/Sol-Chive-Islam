@@ -1,4 +1,3 @@
-// load dependencies
 import { Request, Response, NextFunction, ErrorRequestHandler } from "express";
 
 // interface to add message property to ErrorRequestHandler

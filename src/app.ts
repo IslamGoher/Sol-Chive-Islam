@@ -1,9 +1,10 @@
-// load dependencies
 import express, {Application} from "express";
 import dotenv from "dotenv";
 import path from "path";
 import morgan from "morgan";
 import connectDB from "./db/db";
+import { errorHandler } from "./middleware/errorHandler";
+import { router as getAllSolutionsRoute } from "./routes/solutions";
 
 const app: Application = express();
 
@@ -20,6 +21,12 @@ const port: number|string = process.env.PORT || 3000;
 if(process.env.NODE_ENV == 'development') {
   app.use(morgan('dev'));
 }
+
+// use solutions routes
+app.use(getAllSolutionsRoute);
+
+// use error handler
+app.use(errorHandler);
 
 // start server
 app.listen(port, () => {
