@@ -4,7 +4,7 @@ import path from "path";
 import morgan from "morgan";
 import connectDB from "./db/db";
 import { errorHandler } from "./middleware/errorHandler";
-import { router as getAllSolutionsRoute } from "./routes/solutions";
+import { router as SolutionsRoutes } from "./routes/solutions";
 
 const app: Application = express();
 
@@ -23,7 +23,7 @@ if(process.env.NODE_ENV == 'development') {
 }
 
 // use solutions routes
-app.use(getAllSolutionsRoute);
+app.use(SolutionsRoutes);
 
 // use error handler
 app.use(errorHandler);
