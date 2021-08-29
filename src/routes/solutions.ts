@@ -1,5 +1,8 @@
 import express, { Router } from "express";
-import { getAllSolutions } from "../controller/solutions";
+import {
+  getAllSolutions,
+  getOneSolution
+} from "../controller/solutions";
 
 export const router: Router = express.Router();
 
@@ -7,3 +10,8 @@ export const router: Router = express.Router();
 // desc:    list all solutions
 // access:  private (only logged in user can see his solutions)
 router.get('/api/v1/solutions', getAllSolutions);
+
+// route:   GET '/api/v1/solutions/:solutionId'
+// desc:    get one solution
+// access:  private (only logged in user can see his solutions)
+router.get('/api/v1/solutions/:solutionId', getOneSolution);
