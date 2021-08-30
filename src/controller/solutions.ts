@@ -145,3 +145,42 @@ export const putOneSolution = async (
     next(error);
   }
 };
+
+// route:   DELETE '/api/v1/solutions/:solutionId'
+// desc:    delete a particular solution
+// access:  private (only looged in user can delete his solutions)
+export const deleteOneSolution = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+
+    // for development
+    req.user = {
+      id: "6123b11636fc8714c8c962a1"
+    }
+
+    const currentSolution = await Solution.findById(req.params.solutionId);
+
+    // check if solution found
+    if(!currentSolution) {
+      return next(new ErrorResponse(404, "there's no solution found with given id"));
+    }
+
+    // check if solution belongs to user
+    if(req.user.id !== currentSolution.user.toString()) {
+      return next(new ErrorResponse(403, "forbidden: can't access to this content"));
+    }
+
+    await currentSolution.delete();
+
+    res.status(200).json({
+      success: true,
+      message: "solution deleted successfully"
+    });
+    
+  } catch (error) {
+    next(error);
+  }
+};
