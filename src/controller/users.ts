@@ -12,16 +12,16 @@ export const getUserData = async (
   try {
 
     // for development
-    req.user = {
+    /* req.user = {
       id: "6123b11636fc8714c8c962a1"
-    }
+    } */
     
     // find user
     const currentUser = await User.
       findById(req.user.id)
       .select('name picture -_id');
 
-  res.status(200).json(currentUser);
+    res.status(200).json(currentUser);
 
   } catch (error) {
     next(error);

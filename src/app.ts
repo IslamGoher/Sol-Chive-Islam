@@ -6,6 +6,7 @@ import connectDB from "./db/db";
 import { errorHandler } from "./middleware/errorHandler";
 import { router as SolutionsRoutes } from "./routes/solutions";
 import { router as userRoutes } from "./routes/users";
+import { notFound } from "./controller/RouteNotFound";
 
 const app: Application = express();
 
@@ -34,6 +35,9 @@ app.use(SolutionsRoutes);
 
 // use user routes
 app.use(userRoutes);
+
+// not found route
+app.use(notFound);
 
 // use error handler
 app.use(errorHandler);
