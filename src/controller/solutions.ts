@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { ErrorResponse } from "../util/errorResponse";
 import { Solution } from "../model/solution";
 import { User } from "../model/user";
+import { Data } from "../interfaces/bodyOfEditSolution";
 
 // route:   GET '/api/v1/solutions'
 // desc:    list all solutions
@@ -15,16 +16,9 @@ export const getAllSolutions = async (
   try {
     
     // for development
-    req.user = {
+    /* req.user = {
       id: '6123b11636fc8714c8c962a1'
-    };
-  
-    // selected properties of every solution
-    let querySelect = {
-      'problem': 1,
-      'createdAt': 1,
-      'perfectSolution.isExist': 1
-    };
+    }; */
   
     const user = await User.
       findById(req.user.id).
@@ -64,9 +58,9 @@ export const getOneSolution = async (
   try {
 
     // for development
-    req.user = {
+    /* req.user = {
       id: '6123b11636fc8714c8c962a1'
-    };
+    }; */
     
     const solutionId = req.params.solutionId;
 
@@ -98,3 +92,56 @@ export const getOneSolution = async (
     next(error);
   }
 }
+
+// route:   PUT '/api/v1/solutions/:solutionId'
+// desc:    edit a particular solution
+// access:  pricate (only looged in user can edit his solutions)
+export const putOneSolution = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+
+    // for development
+    /* req.user = {
+      id: "6123b11636fc8714c8c962a1"
+    } */
+    
+    const data: Data = req.body;
+    const currentSolution = await Solution.findById(req.params.solutionId);
+
+    // check if solution found
+    if(!currentSolution) {
+      return next(new ErrorResponse(404, "there's no solution found with given id"));
+    }
+
+    // check if solution belongs to user
+    if(req.user.id !== currentSolution.user.toString()) {
+      return next(new ErrorResponse(403, "forbidden: can't access to this content"));
+    }
+
+    // update solution
+    currentSolution.problem = data.problem;
+    currentSolution.mySolution = data.mySolution;
+    if(data.perfectSolution) {
+      currentSolution.perfectSolution = {
+        isExist: true,
+        code: data.perfectSolution
+      };
+    } else {
+      currentSolution.perfectSolution = {
+        isExist: false
+      }
+    }
+    await currentSolution.save();
+
+    res.status(200).json({
+      success: true,
+      message: "solution updated successfully"
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
