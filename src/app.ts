@@ -5,6 +5,7 @@ import morgan from "morgan";
 import connectDB from "./db/db";
 import { errorHandler } from "./middleware/errorHandler";
 import { router as SolutionsRoutes } from "./routes/solutions";
+import { router as userRoutes } from "./routes/users";
 
 const app: Application = express();
 
@@ -30,6 +31,9 @@ app.use(express.urlencoded({extended: false}));
 
 // use solutions routes
 app.use(SolutionsRoutes);
+
+// use user routes
+app.use(userRoutes);
 
 // use error handler
 app.use(errorHandler);

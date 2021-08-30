@@ -196,9 +196,9 @@ export const postSolution = async (
   try {
     
     // for development
-    req.user = {
+    /* req.user = {
       id: "6123b11636fc8714c8c962a1"
-    }
+    } */
 
     const data: Data = req.body;
     let perfectSolutionIsExist = false;
