@@ -2,7 +2,8 @@ import express, { Router } from "express";
 import {
   getAllSolutions,
   getOneSolution,
-  putOneSolution
+  putOneSolution,
+  deleteOneSolution
 } from "../controller/solutions";
 
 export const router: Router = express.Router();
@@ -19,5 +20,10 @@ router.get('/api/v1/solutions/:solutionId', getOneSolution);
 
 // route:   PUT '/api/v1/solutions/:solutionId'
 // desc:    edit a particular solution
-// access:  pricate (only looged in user can edit his solutions)
+// access:  private (only looged in user can edit his solutions)
 router.put('/api/v1/solutions/:solutionId', putOneSolution);
+
+// route:   DELETE '/api/v1/solutions/:solutionId'
+// desc:    delete a particular solution
+// access:  private (only looged in user can delete his solutions)
+router.delete('/api/v1/solutions/:solutionId', deleteOneSolution);
