@@ -16,6 +16,29 @@ type SolutionDocument = Document & {
   createdAt: Date
 }
 
+let tagsEnum = [
+  "array", "queue", "stack",
+  "heap", "trie", "linkedlist",
+  "tree", "graph", "map",
+  "string", "hash table", "sort",
+  "search", "algorithm", "Depth-First search",
+  "Breadth-First search", "greedy", "recursion",
+  "database", "matrix", "memorization"
+];
+
+const validateTags = (val: string[]) => {
+  let check = true;
+  for(let i = 0 ; i < val.length; i++) {
+    let isFalse = tagsEnum.includes(val[i]);
+    if(!isFalse) {
+      return isFalse;
+    }
+  }
+  return check;
+}
+
+let tagsValidator = [validateTags, "please pick a valid tags"]
+
 // create solution schema
 const solutionSchema = new mongoose.Schema<SolutionDocument>({
   mySolution: {
@@ -25,7 +48,8 @@ const solutionSchema = new mongoose.Schema<SolutionDocument>({
   perfectSolution: {
     isExist: {
       type: Boolean,
-      default: false
+      default: false,
+      required: true
     },
     code: String
   },
@@ -47,18 +71,10 @@ const solutionSchema = new mongoose.Schema<SolutionDocument>({
       required: true,
       enum: ["leetcode", "codewars", "hackerrank", "codeforces", "other source"]
     },
-    tags: [{
-      type: String,
-      enum: [
-        "array", "queue", "stack",
-        "heap", "trie", "linkedlist",
-        "tree", "graph", "map",
-        "string", "hash table", "sort",
-        "search", "algorithm", "Depth-First search",
-        "Breadth-First search", "greedy", "recursion",
-        "database", "matrix", "memorization"
-      ]
-    }]
+    tags: {
+      type: [String],
+      validate: tagsValidator
+    }
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,

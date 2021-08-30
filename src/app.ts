@@ -22,6 +22,12 @@ if(process.env.NODE_ENV == 'development') {
   app.use(morgan('dev'));
 }
 
+// handling incoming json requests
+app.use(express.json());
+
+// handling incoming x-www-form-urlencoded requests
+app.use(express.urlencoded({extended: false}));
+
 // use solutions routes
 app.use(SolutionsRoutes);
 
