@@ -157,9 +157,9 @@ export const deleteOneSolution = async (
   try {
 
     // for development
-    req.user = {
+    /* req.user = {
       id: "6123b11636fc8714c8c962a1"
-    }
+    } */
 
     const currentSolution = await Solution.findById(req.params.solutionId);
 
@@ -180,6 +180,53 @@ export const deleteOneSolution = async (
       message: "solution deleted successfully"
     });
     
+  } catch (error) {
+    next(error);
+  }
+};
+
+// route:   POST '/api/v1/solutions/add'
+// desc:    add new solution
+// access:  private (only logged in user can add new solution)
+export const postSolution = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    
+    // for development
+    req.user = {
+      id: "6123b11636fc8714c8c962a1"
+    }
+
+    const data: Data = req.body;
+    let perfectSolutionIsExist = false;
+    let perfectSolutionCode = "";
+    
+    if(data.perfectSolution) {
+      perfectSolutionIsExist = true;
+      perfectSolutionCode = data.perfectSolution;
+    }
+
+    // create new solution
+    const newSolution = {
+      mySolution: data.mySolution,
+      perfectSolution: {
+        isExist: perfectSolutionIsExist,
+        code: perfectSolutionCode
+      },
+      problem: data.problem,
+      User: req.user.id
+    };
+
+    await Solution.create(newSolution);
+
+    res.status(201).json({
+      success: true,
+      message: "solution has created successfully"
+    });
+
   } catch (error) {
     next(error);
   }
