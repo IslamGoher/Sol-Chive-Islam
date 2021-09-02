@@ -23,6 +23,12 @@ export const errorHandler = (
     err.statusCode = 401;
   }
 
+  if(err.message.startsWith("jwt")) {
+    res.cookie('token', '', {maxAge: 0});
+    err.message = "please login to access this content";
+    err.statusCode = 401;
+  }
+
   // send response
   res.status(err.statusCode || 500).json({
     sucess: false,
