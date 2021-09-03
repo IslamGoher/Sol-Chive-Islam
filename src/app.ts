@@ -7,7 +7,7 @@ import { errorHandler } from "./middleware/errorHandler";
 import { router as SolutionsRoutes } from "./routes/solutions";
 import { router as userRoutes } from "./routes/users";
 import { notFound } from "./controller/RouteNotFound";
-import { isAuth } from "./middleware/jwtAuth";
+import { router as oauth } from "./routes/oauth";
 
 const app: Application = express();
 
@@ -31,9 +31,8 @@ app.use(express.json());
 // handling incoming x-www-form-urlencoded requests
 app.use(express.urlencoded({extended: false}));
 
-// use authorization routes
-// must be used before other routes
-app.use(isAuth);
+// use oauth routes
+app.use(oauth);
 
 // use solutions routes
 app.use(SolutionsRoutes);

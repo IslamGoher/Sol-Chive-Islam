@@ -2,6 +2,7 @@ import mongoose, { ObjectId, Document } from 'mongoose';
 
 type UserDocument = Document & {
   name: string,
+  email: string,
   picture: string,
   solutions: ObjectId[]
 }
@@ -9,6 +10,7 @@ type UserDocument = Document & {
 // create user schema
 const userSchema = new mongoose.Schema<UserDocument>({
   name: String,
+  email: String,
   picture: String,
   solutions: [{
     type: mongoose.Schema.Types.ObjectId,

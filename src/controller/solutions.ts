@@ -74,7 +74,7 @@ export const getOneSolution = async (
     }
 
     // check if solution belongs to user
-    if(req.user.id !== currentSolution.user.toString()) {
+    if(req.user.id != currentSolution.user.toString()) {
       return next(new ErrorResponse(403, "forbidden: can't access to this content"));
     }
     // remove user id before sending
@@ -184,7 +184,7 @@ export const deleteOneSolution = async (
     next(error);
   }
 };
-
+import mongoose from "mongoose";
 // route:   POST '/api/v1/solutions/add'
 // desc:    add new solution
 // access:  private (only logged in user can add new solution)
@@ -217,15 +217,20 @@ export const postSolution = async (
         code: perfectSolutionCode
       },
       problem: data.problem,
-      User: req.user.id
+      user: req.user.id
     };
 
-    await Solution.create(newSolution);
+    const currentSolution = await Solution.create(newSolution);
 
     res.status(201).json({
       success: true,
       message: "solution has created successfully"
     });
+
+    // save solution id in user model
+    const currentUser = await User.findById(req.user.id);
+    currentUser?.solutions.push(currentSolution._id);
+    await currentUser?.save();
 
   } catch (error) {
     next(error);

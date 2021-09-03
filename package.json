@@ -20,15 +20,16 @@
   },
   "homepage": "https://github.com/SamGoher/Sol-Chive-Islam#readme",
   "dependencies": {
-    "bcrypt": "^5.0.1",
+    "axios": "^0.21.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "googleapis": "^85.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.2",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "@types/bcrypt": "^5.0.0",
+    "@types/axios": "^0.14.0",
     "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^8.5.4",
     "@types/mongodb": "^4.0.7",
