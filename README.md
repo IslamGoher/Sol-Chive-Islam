@@ -14,3 +14,6 @@ Solution Archive is an open source application that allows user to archive an im
 
 # Main Repository
 [Here](https://github.com/SamGoher/Sol-Chive)
+
+## environment variables
+PORT - MONGO_URI - JWT_SECRET - GOOGLE_CLIENT_ID - GOOGLE_CLIENT_SECRET - GOOGLE_REDIRECT_URI - CLIENT_DOMAIN
